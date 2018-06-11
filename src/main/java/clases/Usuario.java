@@ -1,3 +1,5 @@
+package clases;
+
 public class Usuario {
 
     private String username;
@@ -5,6 +7,16 @@ public class Usuario {
     private String password;
     private boolean administrador;
     private boolean autor;
+    private boolean activo;
+
+    public Usuario(String username, String nombre, String password, boolean administrador, boolean autor, boolean activo) {
+        this.username = username;
+        this.nombre = nombre;
+        this.password = password;
+        this.administrador = administrador;
+        this.autor = autor;
+        this.activo = activo;
+    }
 
     public String getUsername() {
         return username;
@@ -54,5 +66,5 @@ public class Usuario {
         this.activo = activo;
     }
 
-    private boolean activo;
+
 }
