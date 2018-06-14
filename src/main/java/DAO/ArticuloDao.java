@@ -4,6 +4,7 @@ import clases.Articulo;
 import org.sql2o.Sql2o;
 
 import java.util.List;
+import java.util.Map;
 
 public class ArticuloDao {
     private Sql2o conexion = null;
@@ -47,9 +48,11 @@ public class ArticuloDao {
     }
 
     public List<Articulo> listarArticulos(){
-        String sql = "SELECT titulo, left(cuerpo,70), ";
-
-            return conexion.createQuery(sql).executeAndFetch(Articulo.class);
+        String sql = "SELECT * from articulo where activo = true order by id desc";
+        Conexion con = new Conexion();
+        conexion = con.getConexion();
+        conexion.open();
+        return conexion.createQuery(sql).executeAndFetch(Articulo.class);
     }
 
     public Long lastArticulo(){
@@ -79,5 +82,7 @@ public class ArticuloDao {
                 .executeUpdate();
 
     }
+
+
 
 }

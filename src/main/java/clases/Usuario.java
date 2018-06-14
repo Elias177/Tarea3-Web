@@ -14,14 +14,25 @@ public class Usuario {
     private String username;
     private String nombre;
     private String password;
-    private boolean administrador;
+    private boolean administrator;
     private boolean autor;
+    private String cookies;
 
-    public Usuario(String username, String nombre, String password, boolean administrador, boolean autor) {
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
+    private boolean activo;
+
+    public Usuario(String username, String nombre, String password, boolean administrator, boolean autor) {
         this.username = username;
         this.nombre = nombre;
         this.password = password;
-        this.administrador = administrador;
+        this.administrator = administrator;
         this.autor = autor;
     }
 
@@ -49,12 +60,12 @@ public class Usuario {
         this.password = password;
     }
 
-    public boolean isAdministrador() {
-        return administrador;
+    public boolean isAdministrator() {
+        return administrator;
     }
 
-    public void setAdministrador(boolean administrador) {
-        this.administrador = administrador;
+    public void setAdministrator(boolean administrator) {
+        this.administrator = administrator;
     }
 
     public boolean isAutor() {
@@ -66,5 +77,11 @@ public class Usuario {
     }
 
 
+    public String getCookies() {
+        return cookies;
+    }
 
+    public void setCookies(String cookies) {
+        this.cookies = cookies;
+    }
 }

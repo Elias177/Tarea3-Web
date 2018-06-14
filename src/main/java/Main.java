@@ -12,13 +12,11 @@ import java.io.StringWriter;
 import java.sql.Date;
 import java.util.*;
 
-import static spark.Spark.before;
-import static spark.Spark.get;
-import static spark.Spark.post;
+import static spark.Spark.*;
 
 public class Main {
 
-    static String usuarioNombre = "";
+    static String nombreLogeado = "";
     static Usuario usuarioLogeado;
 
     public static void main(String[] args) {
@@ -44,7 +42,7 @@ public class Main {
                 String sesion = textEncryptor.decrypt(req.cookie("cookieSesion"));
 
                 Usuario oldUsuario = usuarioDao.getSesion(sesion);
-                usuarioNombre = oldUsuario.getUsername();
+                nombreLogeado = oldUsuario.getUsername();
                 usuarioLogeado = oldUsuario;
                 req.session().attribute("sesion", oldUsuario);
 
@@ -54,15 +52,28 @@ public class Main {
                 }
             }
 
+            if (req.session().attribute("sesion") == null) {
+                res.redirect("/login");
+            }
+
         });
 
         get("/", (req, res) -> {
             StringWriter writer = new StringWriter();
             Map<String, Object> atr = new HashMap<>();
-            Template template = configuration.getTemplate("templates/agregarArticulo.ftl");
+            Template template = configuration.getTemplate("templates/home.ftl");
+
+            List<Articulo> articuloList = articuloDao.listarArticulos();
+            for(int i = 0; i < articuloList.size(); i++){
+                articuloList.get(i).setListaEtiqueta(etiquetaDao.getEtiquetas(articuloList.get(i).getId()));
+            }
+            atr.put("admin",usuarioLogeado.isAdministrator());
+            atr.put("autor",usuarioLogeado.isAutor());
+            atr.put("LosArticulos",articuloList);
             template.process(atr,writer);
             return writer;
         });
+
         post("/agregarUsuario", (req, res) -> {
 
             String user = req.queryParams("username");
@@ -132,6 +143,71 @@ public class Main {
 
             return null;
         });
+
+        get("/login", (req, res) -> {
+            StringWriter writer = new StringWriter();
+            Map<String, Object> atr = new HashMap<>();
+            Template template = configuration.getTemplate("templates/login.ftl");
+            template.process(atr, writer);
+
+            return writer;
+        });
+
+        post("/login", (req, res) -> {
+
+
+                nombreLogeado = req.queryParams("username");
+                String password = req.queryParams("password");
+                usuarioLogeado = usuarioDao.getUsuario(nombreLogeado, password);
+                System.out.println(usuarioLogeado.isAutor());
+                if (usuarioLogeado != null) {
+                    req.session().attribute("sesion", usuarioLogeado);
+
+                    if (req.queryParams("keepLog") != null) {
+                        String sesion = req.session().id();
+                        StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+                        textEncryptor.setPassword("mangekyouSharingan42");
+                        String encrypt = textEncryptor.encrypt(sesion);
+
+                        res.cookie("/", "sesion", encrypt, 432000, false);
+                        usuarioDao.saveCookies(usuarioLogeado.getId(),req.session().id());
+                    }
+
+                    res.redirect("/");
+                } else {
+                    res.redirect("/login");
+                }
+
+
+            return null;
+        });
+
+        path("/articulo", () -> {
+            //Ruta para agregar un estudiante
+            get("/agregarArticulo", (req, res) -> {
+                StringWriter writer = new StringWriter();
+                Template temp = configuration.getTemplate("templates/agregarArticulo.ftl");
+
+                temp.process(null, writer);
+
+                return writer;
+            });
+        });
+
+        path("/usuario", () -> {
+            //Ruta para agregar un estudiante
+            get("/crearUsuario", (req, res) -> {
+                StringWriter writer = new StringWriter();
+                Template temp = configuration.getTemplate("templates/crearUsuario.ftl");
+
+                temp.process(null, writer);
+
+                return writer;
+            });
+        });
+
+
+
     }
 
 

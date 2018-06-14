@@ -10,28 +10,31 @@
                 <div class="panel-body">
                     <div class="col-md-12">
                         <div class="row">
-                            <h3 class="card-title">${articulo.eltitulo}</h3>
+                            <h3 class="card-title">${articulo.titulo}</h3>
                             <div class="col-sm-3">
                                 <h4 class="pull-right">
-                                    <i class="fas fa-calendar-alt"></i> ${articulo.lafecha}
+                                    <i class="fas fa-calendar-alt"></i> ${articulo.fecha}
                                 </h4>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="panel-body">${articulo.bodydelart}
+                <#if articulo.cuerpo?length &lt; 71>
+                    <div class="panel-body">${articulo.cuerpo}
+                        <a href="/articulo/${articulo.id}">Leer más...</a>
+                    </div>
+                <#else>
+                    <div class="panel-body">${articulo.cuerpo?substring(0,70)}...
                     <a href="/articulo/${articulo.id}">Leer más...</a>
                 </div>
+                </#if>
+
                 <div class="card-footer p-2">
                     <strong class="text-danger m-0">
 
-                            <span class="text-success ml-5">
-                                <p>Comentarios ${articulo.listadeComments?size} </p>
-                            </span>
-                            <#if articulo.listadeEtiquetas?size gt 0>
+                            <#if articulo.listaEtiqueta?size gt 0>
                                <span class="label label-default">
-                                    <#list articulo.listadeEtiquetas as etiqueta>
+                                    <#list articulo.listaEtiqueta as etiqueta>
                                         ${etiqueta.etiqueta}
                                     </#list>
                                </span>

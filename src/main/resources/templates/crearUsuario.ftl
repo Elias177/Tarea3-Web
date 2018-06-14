@@ -24,12 +24,12 @@
                                 <legend class="col-form-label col-sm-2 pt-0">Seguridad</legend>
                                 <div class="col-sm-10">
                                     <div class="radio">
-                                        <input class="form-check-input" type="radio" name="seraAdmin">
-                                        <label class="form-check-label" for="seraAdmin">Administrador </label>
+                                        <input class="form-check-input" type="checkbox" name="administrator">
+                                        <label class="form-check-label" for="administrator">Administrador </label>
                                     </div>
                                     <div class="radio">
-                                        <input class="form-check-input" type="radio" name="seraAutor">
-                                        <label class="form-check-label" for="seraAutor">Autor</label>
+                                        <input class="form-check-input" type="checkbox" name="autor">
+                                        <label class="form-check-label" for="autor">Autor</label>
                                     </div>
 
                                     <div class="form-group row">

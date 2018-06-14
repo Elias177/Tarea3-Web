@@ -14,7 +14,10 @@
 
             <input type="text" class="form-control rounded-0" name="username" placeholder="usuario" required="" autofocus="" />
             <input type="password" class="form-control rounded-0" name="password" placeholder="contraseña" required=""/>
-
+            <input class="form-check-input" type="checkbox" name="keepLog">
+            <label class="form-check-label" for="keepLog">
+                <strong>Mantener Logeado</strong>
+            </label>
             <button class="btn btn-lg btn-primary btn-block"  name="Submit" value="Login" type="Submit">Login</button>
         </form>
     </div>

@@ -1,7 +1,6 @@
 package DAO;
 
 import clases.Usuario;
-import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 public class UsuarioDao {
@@ -26,7 +25,7 @@ public class UsuarioDao {
                 .addParameter("username",usuario.getUsername())
                 .addParameter("nombre", usuario.getNombre())
                 .addParameter("password",usuario.getPassword())
-                .addParameter("administrator",usuario.isAdministrador())
+                .addParameter("administrator",usuario.isAdministrator())
                 .addParameter("autor",usuario.isAutor())
                 .addParameter("activo",true)
                 .executeUpdate();
@@ -52,11 +51,28 @@ public class UsuarioDao {
     }
 
     public Usuario getSesion(String sesion) {
-            String sql = "select * from usuario where cookies = '" +sesion+"'";
+            String sql = "select * from usuario where cookies = '" +sesion+"' and activo = true";
             Conexion con = new Conexion();
             conexion = con.getConexion();
             conexion.open();
-            return conexion.createQuery(sql).executeScalar(Usuario.class);
+            return conexion.createQuery(sql).executeAndFetchFirst(Usuario.class);
+    }
+
+    public Usuario getUsuario(String nombre, String pass){
+       String sql = "select * from usuario where username = '" + nombre +"' and password = '" + pass + "' and activo = true";
+        Conexion con = new Conexion();
+        conexion = con.getConexion();
+        conexion.open();
+        return conexion.createQuery(sql).executeAndFetchFirst(Usuario.class);
+    }
+
+    public void saveCookies(Long id, String sesion){
+        String sql ="UPDATE usuario SET cookies='" + sesion + "' WHERE id='" + id + "'";
+        Conexion con = new Conexion();
+        conexion = con.getConexion();
+        conexion.open();
+        conexion.createQuery(sql).executeUpdate();
+
     }
 
 }

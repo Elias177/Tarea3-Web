@@ -5,17 +5,44 @@ import java.util.List;
 
 public class Articulo {
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    private Long id;
     private String titulo;
     private String cuerpo;
-    private Long autor;
+    private Long id_autor;
     private Date fecha;
     private List<Comentario> listaComentarios;
+
+    public Long getId_autor() {
+        return id_autor;
+    }
+
+    public void setId_autor(Long id_autor) {
+        this.id_autor = id_autor;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
+    private boolean activo;
 
 
     public Articulo(String titulo, String cuerpo, Long autor, Date fecha, List<Comentario> listaComentarios, List<Etiqueta> listaEtiqueta) {
         this.titulo = titulo;
         this.cuerpo = cuerpo;
-        this.autor = autor;
+        this.id_autor = autor;
         this.fecha = fecha;
         this.listaComentarios = listaComentarios;
         this.listaEtiqueta = listaEtiqueta;
@@ -57,11 +84,11 @@ public class Articulo {
     }
 
     public Long getAutor() {
-        return autor;
+        return id_autor;
     }
 
     public void setAutor(Long autor) {
-        this.autor = autor;
+        this.id_autor = autor;
     }
 
     public Date getFecha() {
