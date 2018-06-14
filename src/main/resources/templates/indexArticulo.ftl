@@ -10,11 +10,11 @@
                             ${articulo.titulo}
                         </h1>
                         </br>
-                        <#if tPermisos>
-                            <a href="/editar/${articulo.id}" class="text-success ml-2">
+                        <#if admin || autor>
+                            <a href="editar/${articulo.id}" class="text-success ml-2">
                                 <button type="button" class="btn btn-warning">Editar</button>
                             </a>
-                            <a href="/eliminar/${articulo.id}" class="text-primary ml-2">
+                            <a href="eliminar/${articulo.id}" class="text-primary ml-2">
                                 <button type="button" class="btn btn-danger">Eliminar</button>
                                 </br>
                             </a>
@@ -35,9 +35,9 @@
                             <strong>Etiquetas</strong>
 
                         </h6>
-                        <#if articulo.listaEtiquetas?size gt 0>
+                        <#if articulo.listaEtiqueta?size gt 0>
                           <span class="label label-default">
-                                <#list articulo.listaEtiquetas as etiqueta>
+                                <#list articulo.listaEtiqueta as etiqueta>
                                     ${etiqueta.etiqueta}
                                 </#list>
                           </span>
@@ -73,7 +73,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title m-0">
                                         <strong>
-                                            <i class="fas fa-user"></i> ${comentario.autor.username}
+                                            <i class="fas fa-user"></i> ${username}
                                         </strong>
                                     </h5>
                                 </div>

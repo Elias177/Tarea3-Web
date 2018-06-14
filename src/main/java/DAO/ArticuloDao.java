@@ -83,6 +83,37 @@ public class ArticuloDao {
 
     }
 
+    public void insertarArticuloComentario(Long id_articulo,Long id_comentario){
+        String sql = "insert into articulo_comentarios (id_articulo, id_comentario, activo) values(:id_articulo,:id_comentario,:activo)";
+        Conexion con = new Conexion();
+        conexion = con.getConexion();
+        conexion.open();
+
+
+        conexion.createQuery(sql)
+                .addParameter("id_articulo",id_articulo)
+                .addParameter("id_comentario",id_comentario)
+                .addParameter("activo",true)
+                .executeUpdate();
+
+    }
+
+    public Articulo getArticuloId(Long id){
+        Conexion con = new Conexion();
+        conexion = con.getConexion();
+        conexion.open();
+        String sql = "select * from articulo where id= '"+id+"' and activo = true";
+
+        return conexion.createQuery(sql).executeAndFetchFirst(Articulo.class);
+    }
+
+    public void editarArticulo(Long id, String titulo, String cuerpo){
+        String sql = "update articulo set titulo='"+ titulo +"', cuerpo='"+cuerpo+"' where id='"+id+"'";
+        Conexion con = new Conexion();
+        conexion = con.getConexion();
+        conexion.open();
+        conexion.createQuery(sql).executeUpdate();
+    }
 
 
 }

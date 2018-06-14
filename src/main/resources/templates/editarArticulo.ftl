@@ -15,10 +15,6 @@
                                 <label for="cuerpo"><strong>Cuerpo</strong></label><br>
                                 <textarea name="cuerpo" class="form-control rounded-0">${articulo.cuerpo}</textarea>
 
-                                <label for="etiquetas"><strong>Etiquetas</strong></label>
-                                <textarea name="etiquetas" class="form-control rounded-0">
-
-                            <#list articulo.listaEtiquetas as etiqueta>${etiqueta.etiqueta},</#list>
                                 </textarea>
                             </div>
                             <button class="btn btn-light" type="submit">

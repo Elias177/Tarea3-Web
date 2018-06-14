@@ -1,7 +1,9 @@
 import DAO.ArticuloDao;
+import DAO.ComentarioDao;
 import DAO.EtiquetaDao;
 import DAO.UsuarioDao;
 import clases.Articulo;
+import clases.Comentario;
 import clases.Etiqueta;
 import clases.Usuario;
 import freemarker.template.Configuration;
@@ -10,6 +12,7 @@ import org.jasypt.util.text.StrongTextEncryptor;
 
 import java.io.StringWriter;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.*;
 
 import static spark.Spark.*;
@@ -20,7 +23,7 @@ public class Main {
     static Usuario usuarioLogeado;
 
     public static void main(String[] args) {
-
+        staticFiles.location("/public");
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
         configuration.setClassForTemplateLoading(Main.class, "/");
 
@@ -34,6 +37,7 @@ public class Main {
 
         DAO.ArticuloDao articuloDao = new ArticuloDao();
         DAO.EtiquetaDao etiquetaDao = new EtiquetaDao();
+        DAO.ComentarioDao comentarioDao = new ComentarioDao();
 
         before("/", (req, res) -> {
             if (req.cookie("cookieSesion") != null) {
@@ -57,6 +61,7 @@ public class Main {
             }
 
         });
+
 
         get("/", (req, res) -> {
             StringWriter writer = new StringWriter();
@@ -183,6 +188,23 @@ public class Main {
         });
 
         path("/articulo", () -> {
+
+            get("/:id", (req, res) -> {
+                StringWriter writer = new StringWriter();
+                Map<String, Object> atributos = new HashMap<>();
+                Template template = configuration.getTemplate("templates/indexArticulo.ftl");
+
+                Articulo articulo = articuloDao.getArticuloId(Long.valueOf(req.params("id")));
+                articulo.setListaEtiqueta(etiquetaDao.getEtiquetas(articulo.getId()));
+                articulo.setListaComentarios(comentarioDao.getComentario(articulo.getId()));
+                atributos.put("articulo", articulo);
+                atributos.put("username", nombreLogeado);
+                atributos.put("admin", usuarioLogeado.isAdministrator());
+                atributos.put("autor", usuarioLogeado.isAutor());
+                template.process(atributos, writer);
+
+                return writer;
+            });
             //Ruta para agregar un estudiante
             get("/agregarArticulo", (req, res) -> {
                 StringWriter writer = new StringWriter();
@@ -192,6 +214,78 @@ public class Main {
 
                 return writer;
             });
+
+            post("/:id/comentar", (req, res) -> {
+                Long idArticulo = Long.parseLong(req.params("id"));
+                String comentario = req.queryParams("comentario");
+                Long autor = usuarioLogeado.getId();
+                Comentario c = new Comentario(comentario,autor);
+
+
+                Long countComentario = 0L;
+                if(comentarioDao.countComentario() != 0){
+                    countComentario =  comentarioDao.lastComentario();
+                }
+                comentarioDao.insertarComentario(c);
+                articuloDao.insertarArticuloComentario(idArticulo,countComentario);
+                res.redirect("/articulo/" + idArticulo);
+                return null;
+            });
+
+            get("/eliminar/:id", (req, res) -> {
+                if (usuarioLogeado.isAdministrator() || usuarioLogeado.isAutor()) {
+                    StringWriter writer = new StringWriter();
+                    Map<String, Object> atributos = new HashMap<>();
+                    Template template = configuration.getTemplate("templates/eliminarArticulo.ftl");
+
+                    Articulo articulo = articuloDao.getArticuloId(Long.parseLong(req.params("id")));
+
+                    atributos.put("articulo", articulo);
+                    template.process(atributos, writer);
+
+                    return writer;
+                }
+                res.redirect("/");
+                return null;
+            });
+
+
+            get("/editar/:id", (req, res) -> {
+                StringWriter writer = new StringWriter();
+                Map<String, Object> atributos = new HashMap<>();
+                Template template = configuration.getTemplate("templates/editarArticulo.ftl");
+
+                Articulo articulo = articuloDao.getArticuloId(Long.parseLong(req.params("id")));
+
+                atributos.put("articulo", articulo);
+                atributos.put("autor", usuarioLogeado.isAutor());
+                atributos.put("admin", usuarioLogeado.isAdministrator());
+                template.process(atributos, writer);
+
+                return writer;
+            });
+
+        });
+
+        post("/eliminar/:id", (req, res) -> {
+            if (usuarioLogeado.isAdministrator() || usuarioLogeado.isAutor()) {
+                articuloDao.borrarArticulo(Long.valueOf(req.params("id")));
+            }
+            res.redirect("/");
+            return null;
+        });
+
+
+        post("/editar/:id", (req, res) -> {
+            long id = Integer.parseInt(req.params("id"));
+            String titulo = req.queryParams("titulo");
+            String cuerpo = req.queryParams("cuerpo");
+
+            articuloDao.editarArticulo(id,titulo,cuerpo);
+
+            res.redirect("/");
+
+            return null;
         });
 
         path("/usuario", () -> {

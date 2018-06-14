@@ -1,25 +1,22 @@
 package clases;
 
 public class Comentario {
-    private long id;
+    private long id_comentario;
     private String comentario;
-    private Usuario autor;
-    private Articulo articulo;
+    private Long autor;
 
-    public Comentario(long id, String comentario, Usuario autor, Articulo articulo) {
-        this.id = id;
+    public Comentario(String comentario, Long autor) {
         this.comentario = comentario;
         this.autor = autor;
-        this.articulo = articulo;
     }
 
     public long getId() {
 
-        return id;
+        return id_comentario;
     }
 
     public void setId(long id) {
-        this.id = id;
+        this.id_comentario = id;
     }
 
     public String getComentario() {
@@ -30,19 +27,12 @@ public class Comentario {
         this.comentario = comentario;
     }
 
-    public Usuario getAutor() {
+    public Long getAutor() {
         return autor;
     }
 
-    public void setAutor(Usuario autor) {
+    public void setAutor(Long autor) {
         this.autor = autor;
     }
 
-    public Articulo getArticulo() {
-        return articulo;
-    }
-
-    public void setArticulo(Articulo articulo) {
-        this.articulo = articulo;
-    }
 }
