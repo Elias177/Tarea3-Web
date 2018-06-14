@@ -169,7 +169,6 @@ public class Main {
 
         post("/login", (req, res) -> {
 
-
                 nombreLogeado = req.queryParams("username");
                 String password = req.queryParams("password");
                 usuarioLogeado = usuarioDao.getUsuario(nombreLogeado, password);
