@@ -27,7 +27,7 @@
                                 <ul class="nav navbar-nav">
                                         <#if admin || autor>
                                     <li class="nav-item">
-                                        <a class="btn btn-link text-light" href="articulo/agregarArticulo">
+                                        <a class="btn btn-link text-light" href="/agregarArticulo">
                                             Crear artículo
                                         </a>
                                     </li>

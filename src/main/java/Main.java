@@ -110,6 +110,15 @@ public class Main {
             return null;
         });
 
+        get("/agregarArticulo", (req, res) -> {
+            StringWriter writer = new StringWriter();
+            Template temp = configuration.getTemplate("templates/agregarArticulo.ftl");
+
+            temp.process(null, writer);
+
+            return writer;
+        });
+
         post("/agregarArticulo", (req, res) -> {
 
             String titulo = req.queryParams("titulo");
@@ -187,14 +196,16 @@ public class Main {
             return null;
         });
 
+
+
         path("/articulo", () -> {
 
             get("/:id", (req, res) -> {
                 StringWriter writer = new StringWriter();
                 Map<String, Object> atributos = new HashMap<>();
                 Template template = configuration.getTemplate("templates/indexArticulo.ftl");
-
-                Articulo articulo = articuloDao.getArticuloId(Long.valueOf(req.params("id")));
+                System.out.println(req.params("id"));
+                Articulo articulo = articuloDao.getArticuloId(Long.parseLong(req.params("id")));
                 articulo.setListaEtiqueta(etiquetaDao.getEtiquetas(articulo.getId()));
                 articulo.setListaComentarios(comentarioDao.getComentario(articulo.getId()));
                 atributos.put("articulo", articulo);
@@ -205,15 +216,8 @@ public class Main {
 
                 return writer;
             });
-            //Ruta para agregar un estudiante
-            get("/agregarArticulo", (req, res) -> {
-                StringWriter writer = new StringWriter();
-                Template temp = configuration.getTemplate("templates/agregarArticulo.ftl");
 
-                temp.process(null, writer);
 
-                return writer;
-            });
 
             post("/:id/comentar", (req, res) -> {
                 Long idArticulo = Long.parseLong(req.params("id"));
