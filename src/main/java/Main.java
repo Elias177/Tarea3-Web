@@ -28,11 +28,11 @@ public class Main {
             System.out.println("Admin creado con exito.");
         }
 
-
+        /*
         DAO.ArticuloDao articuloDao = new ArticuloDao();
         Articulo articulo = new Articulo(Long.valueOf(0),"Hola Mundo","Que bella es la vida",Long.valueOf(0),Date.valueOf(java.time.LocalDate.now()), null,null);
         articuloDao.insertarArticulo(articulo);
-
+        */
 
         get("/", (req, res) -> {
             StringWriter writer = new StringWriter();
