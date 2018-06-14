@@ -183,7 +183,7 @@ public class Main {
                         textEncryptor.setPassword("mangekyouSharingan42");
                         String encrypt = textEncryptor.encrypt(sesion);
 
-                        res.cookie("/", "sesion", encrypt, 432000, false);
+                        res.cookie("/", "sesion", encrypt, 604800, false);
                         usuarioDao.saveCookies(usuarioLogeado.getId(),req.session().id());
                     }
 
