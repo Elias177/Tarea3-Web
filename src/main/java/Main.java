@@ -37,7 +37,7 @@ public class Main {
         get("/", (req, res) -> {
             StringWriter writer = new StringWriter();
             Map<String, Object> atr = new HashMap<>();
-            Template template = configuration.getTemplate("templates/crearUsuario.ftl");
+            Template template = configuration.getTemplate("templates/home.ftl");
             template.process(atr,writer);
             return writer;
         });
