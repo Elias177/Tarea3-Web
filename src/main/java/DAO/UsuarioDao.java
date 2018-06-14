@@ -43,5 +43,12 @@ public class UsuarioDao {
         return count;
     }
 
+    public void borrarUsuario(Long id){
+        String sql = "update usuario set activo=false where id="+id;
+        Conexion con = new Conexion();
+        conexion = con.getConexion();
+        conexion.open();
+        conexion.createQuery(sql).executeUpdate();
+    }
 
 }

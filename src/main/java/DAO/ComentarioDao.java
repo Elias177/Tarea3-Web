@@ -8,7 +8,7 @@ public class ComentarioDao {
 
     private Sql2o conexion = null;
 
-    public void insertarEtiqueta(Comentario comentario) {
+    public void insertarComentario(Comentario comentario) {
         String sql = "insert into comentario (id, comentario, id_autor, id_articulo, activo) values(:id, :comentario, :id_autor, :id_articulo, :activo)";
         Conexion con = new Conexion();
         conexion = con.getConexion();
@@ -36,4 +36,13 @@ public class ComentarioDao {
         int count = conexion.createQuery(sql).executeScalar(Integer.class);
         return count;
     }
+
+    public void borrarComentario(Long id){
+        String sql = "update comentario set activo=false where id="+id;
+        Conexion con = new Conexion();
+        conexion = con.getConexion();
+        conexion.open();
+        conexion.createQuery(sql).executeUpdate();
+    }
+
 }

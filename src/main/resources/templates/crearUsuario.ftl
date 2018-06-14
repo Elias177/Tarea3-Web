@@ -15,7 +15,7 @@
 <script src = "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
 <head>
-    <title>Crear Usuario[</title>
+    <title>Crear Usuario</title>
     <H1>Crear Usuario</H1>
 </head>
 

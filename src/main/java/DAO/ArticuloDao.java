@@ -40,4 +40,12 @@ public class ArticuloDao {
         return count;
     }
 
+    public void borrarArticulo(Long id){
+        String sql = "update articulo set activo=false where id="+id;
+        Conexion con = new Conexion();
+        conexion = con.getConexion();
+        conexion.open();
+        conexion.createQuery(sql).executeUpdate();
+    }
+
 }

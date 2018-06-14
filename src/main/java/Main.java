@@ -57,6 +57,7 @@ public class Main {
 
             uDao.insertarUsuario(u);
 
+
             res.redirect("/");
 
             return null;

@@ -33,4 +33,12 @@ public class EtiquetaDao {
         int count = conexion.createQuery(sql).executeScalar(Integer.class);
         return count;
     }
+
+    public void borrarEtiqueta(Long id){
+        String sql = "update etiqueta set activo=false where id="+id;
+        Conexion con = new Conexion();
+        conexion = con.getConexion();
+        conexion.open();
+        conexion.createQuery(sql).executeUpdate();
+    }
 }
