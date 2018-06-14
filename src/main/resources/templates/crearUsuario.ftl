@@ -1,63 +1,40 @@
-<!doctype html>
-<html>
-<meta charset = "utf-8">
-<meta http-equiv = "X-UA-Compatible" content = "IE = edge">
-<meta name = "viewport" content = "width = device-width, initial-scale = 1">
 
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-group">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                    </div>
+                    <form class="col-11 py-5" method="post" action="/agregarUsuario">
+                        <div class="form-group row">
+                            <label for="user" class="col-sm-2 col-form-label">Nombre de usuario</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control rounded-0" name="username" placeholder="usuario" required="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="password" class="col-sm-2 col-form-label">Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control rounded-0" name="password" placeholder="contraseña" required="">
+                            </div>
+                        </div>
+                        <fieldset class="form-group">
+                            <div class="row">
+                                <legend class="col-form-label col-sm-2 pt-0">Seguridad</legend>
+                                <div class="col-sm-10">
+                                    <div class="radio">
+                                        <input class="form-check-input" type="radio" name="seraAdmin">
+                                        <label class="form-check-label" for="seraAdmin">Administrador </label>
+                                    </div>
+                                    <div class="radio">
+                                        <input class="form-check-input" type="radio" name="seraAutor">
+                                        <label class="form-check-label" for="seraAutor">Autor</label>
+                                    </div>
 
-<!-- Bootstrap -->
-<link href = "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel = "stylesheet">
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src = "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-
-<head>
-    <title>Crear Usuario</title>
-    <H1>Crear Usuario</H1>
-</head>
-
-<body>
-<form action="/agregarUsuario" method="post" >
-    <div>
-        <label for="username">Username:
-            <div>
-                <input type="text" name="username">
-            </div>
-    </div>
-    <div>
-        <div>
-            <label for="nombre">Nombre:
-                <div>
-                    <input type="text" name="nombre">
-                </div>
-        </div>
-        <div>
-        <label for="password">Password:   </label>
-        <div>
-            <input type="password" name="password">
-        </div>
-    </div>
-    <div>
-        <label for="adimistrator">Es Admin?  </label>
-        <div>
-            <input type="checkbox" name="administrator" checked="checked">
-        </div>
-    </div>
-    <div>
-        <label for="autor">Es Autor? </label>
-        <div>
-            <input type="checkbox" name="autor">
-        </div>
-
-    </div>
-    <button type="submit">
-        Agregar
-    </button>
-</form>
-
-</body>
-
-</html>
+                                    <div class="form-group row">
+                                        <div class="col-sm-10">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                    </form>
