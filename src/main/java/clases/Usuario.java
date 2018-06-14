@@ -7,15 +7,13 @@ public class Usuario {
     private String password;
     private boolean administrador;
     private boolean autor;
-    private boolean activo;
 
-    public Usuario(String username, String nombre, String password, boolean administrador, boolean autor, boolean activo) {
+    public Usuario(String username, String nombre, String password, boolean administrador, boolean autor) {
         this.username = username;
         this.nombre = nombre;
         this.password = password;
         this.administrador = administrador;
         this.autor = autor;
-        this.activo = activo;
     }
 
     public String getUsername() {
@@ -58,13 +56,6 @@ public class Usuario {
         this.autor = autor;
     }
 
-    public boolean isActivo() {
-        return activo;
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
-    }
 
 
 }

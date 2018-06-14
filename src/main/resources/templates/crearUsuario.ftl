@@ -15,12 +15,12 @@
 <script src = "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
 <head>
-    <title>Primera Corrida</title>
-    <H1>Register un administrador</H1>
+    <title>Crear Usuario[</title>
+    <H1>Crear Usuario</H1>
 </head>
 
 <body>
-<form action="/agregar" method="post" >
+<form action="/agregarUsuario" method="post" >
     <div>
         <label for="username">Username:
             <div>

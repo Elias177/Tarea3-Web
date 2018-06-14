@@ -14,8 +14,13 @@ public class UsuarioDao {
         conexion = con.getConexion();
         conexion.open();
         String lastId = "select top 1 * from usuario order by id desc";
-        Long id = conexion.createQuery(lastId).executeScalar(Long.class)+1;
-        System.out.println(id);
+        Long id = new Long(0);
+        if(countUsuarios() != 0){
+            id = conexion.createQuery(lastId).executeScalar(Long.class)+1;
+        }
+
+
+
         conexion.createQuery(sql)
                 .addParameter("id",id)
                 .addParameter("username",usuario.getUsername())
@@ -23,10 +28,20 @@ public class UsuarioDao {
                 .addParameter("password",usuario.getPassword())
                 .addParameter("administrator",usuario.isAdministrador())
                 .addParameter("autor",usuario.isAutor())
-                .addParameter("activo",usuario.isActivo())
+                .addParameter("activo",true)
                 .executeUpdate();
 
 
 
     }
+    public int countUsuarios(){
+        String sql = "select count(id) from usuario";
+        Conexion con = new Conexion();
+        conexion = con.getConexion();
+        conexion.open();
+        int count = conexion.createQuery(sql).executeScalar(Integer.class);
+        return count;
+    }
+
+
 }

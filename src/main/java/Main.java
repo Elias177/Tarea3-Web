@@ -2,14 +2,7 @@ import DAO.UsuarioDao;
 import clases.Usuario;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import org.h2.tools.RunScript;
-import org.sql2o.Connection;
-import org.sql2o.Sql2o;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.StringWriter;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,21 +12,27 @@ import static spark.Spark.post;
 public class Main {
 
 
-
     public static void main(String[] args) {
 
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
         configuration.setClassForTemplateLoading(Main.class, "/");
+        DAO.UsuarioDao uDao = new UsuarioDao();
+        if(uDao.countUsuarios() == 0){
+            Usuario admin = new Usuario("admin","admin","admin",true,true);
+            uDao.insertarUsuario(admin);
+            System.out.println("Admin creado con exito.");
+        }
+
 
 
         get("/", (req, res) -> {
             StringWriter writer = new StringWriter();
             Map<String, Object> atr = new HashMap<>();
-            Template template = configuration.getTemplate("templates/welcome.ftl");
+            Template template = configuration.getTemplate("templates/crearUsuario.ftl");
             template.process(atr,writer);
             return writer;
         });
-        post("/agregar", (req, res) -> {
+        post("/agregarUsuario", (req, res) -> {
 
             String user = req.queryParams("username");
             String nombre = req.queryParams("nombre");
@@ -54,8 +53,7 @@ public class Main {
                 autor="true";
             }
 
-            Usuario u =  new Usuario(user,nombre,password,Boolean.valueOf(administrator),Boolean.valueOf(autor),true);
-            DAO.UsuarioDao uDao = new UsuarioDao();
+            Usuario u =  new Usuario(user,nombre,password,Boolean.valueOf(administrator),Boolean.valueOf(autor));
 
             uDao.insertarUsuario(u);
 
