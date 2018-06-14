@@ -1,8 +1,13 @@
+import DAO.ArticuloDao;
 import DAO.UsuarioDao;
+import clases.Articulo;
 import clases.Usuario;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import java.io.StringWriter;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +28,10 @@ public class Main {
             System.out.println("Admin creado con exito.");
         }
 
+
+        DAO.ArticuloDao articuloDao = new ArticuloDao();
+        Articulo articulo = new Articulo(Long.valueOf(0),"Hola Mundo","Que bella es la vida",Long.valueOf(0),Date.valueOf(java.time.LocalDate.now()), null,null);
+        articuloDao.insertarArticulo(articulo);
 
 
         get("/", (req, res) -> {

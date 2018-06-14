@@ -8,12 +8,12 @@ public class Articulo {
     private long id;
     private String titulo;
     private String cuerpo;
-    private Usuario autor;
+    private Long autor;
     private Date fecha;
     private List<Comentario> listaComentarios;
 
 
-    public Articulo(long id, String titulo, String cuerpo, Usuario autor, Date fecha, List<Comentario> listaComentarios, List<Etiqueta> listaEtiqueta) {
+    public Articulo(long id, String titulo, String cuerpo, Long autor, Date fecha, List<Comentario> listaComentarios, List<Etiqueta> listaEtiqueta) {
         this.id = id;
         this.titulo = titulo;
         this.cuerpo = cuerpo;
@@ -66,11 +66,11 @@ public class Articulo {
         this.cuerpo = cuerpo;
     }
 
-    public Usuario getAutor() {
+    public Long getAutor() {
         return autor;
     }
 
-    public void setAutor(Usuario autor) {
+    public void setAutor(Long autor) {
         this.autor = autor;
     }
 

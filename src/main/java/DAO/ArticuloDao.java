@@ -3,6 +3,8 @@ package DAO;
 import clases.Articulo;
 import org.sql2o.Sql2o;
 
+import java.util.List;
+
 public class ArticuloDao {
     private Sql2o conexion = null;
 
@@ -46,6 +48,12 @@ public class ArticuloDao {
         conexion = con.getConexion();
         conexion.open();
         conexion.createQuery(sql).executeUpdate();
+    }
+
+    public List<Articulo> listarArticulos(){
+        String sql = "SELECT titulo, left(cuerpo,70), ";
+
+            return conexion.createQuery(sql).executeAndFetch(Articulo.class);
     }
 
 }
