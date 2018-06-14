@@ -14,11 +14,7 @@ public class ArticuloDao {
         conexion = con.getConexion();
         conexion.open();
 
-        String lastId = "select top 1 * from articulo order by id desc";
-        Long id = new Long(0);
-        if(countArticulos() != 0){
-            id = conexion.createQuery(lastId).executeScalar(Long.class)+1;
-        }
+        Long id = lastArticulo();
 
         conexion.createQuery(sql)
                 .addParameter("id",id)
@@ -54,6 +50,34 @@ public class ArticuloDao {
         String sql = "SELECT titulo, left(cuerpo,70), ";
 
             return conexion.createQuery(sql).executeAndFetch(Articulo.class);
+    }
+
+    public Long lastArticulo(){
+        Conexion con = new Conexion();
+        conexion = con.getConexion();
+        conexion.open();
+
+        String lastId = "select top 1 * from articulo order by id desc";
+        Long id = new Long(0);
+        if(countArticulos() != 0){
+            id = conexion.createQuery(lastId).executeScalar(Long.class)+1;
+        }
+        return id;
+    }
+
+    public void insertarArticuloEtiqueta(Long id_articulo,Long id_etiqueta){
+        String sql = "insert into articulo_etiquetas (id_articulo, id_etiqueta, activo) values(:id_articulo,:id_etiqueta,:activo)";
+        Conexion con = new Conexion();
+        conexion = con.getConexion();
+        conexion.open();
+
+
+        conexion.createQuery(sql)
+                .addParameter("id_articulo",id_articulo)
+                .addParameter("id_etiqueta",id_etiqueta)
+                .addParameter("activo",true)
+                .executeUpdate();
+
     }
 
 }

@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Articulo {
 
-    private long id;
     private String titulo;
     private String cuerpo;
     private Long autor;
@@ -13,8 +12,7 @@ public class Articulo {
     private List<Comentario> listaComentarios;
 
 
-    public Articulo(long id, String titulo, String cuerpo, Long autor, Date fecha, List<Comentario> listaComentarios, List<Etiqueta> listaEtiqueta) {
-        this.id = id;
+    public Articulo(String titulo, String cuerpo, Long autor, Date fecha, List<Comentario> listaComentarios, List<Etiqueta> listaEtiqueta) {
         this.titulo = titulo;
         this.cuerpo = cuerpo;
         this.autor = autor;
@@ -41,14 +39,6 @@ public class Articulo {
     }
 
     private List<Etiqueta> listaEtiqueta;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getTitulo() {
         return titulo;

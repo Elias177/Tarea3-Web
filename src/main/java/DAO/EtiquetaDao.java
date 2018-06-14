@@ -12,12 +12,7 @@ public class EtiquetaDao {
         Conexion con = new Conexion();
         conexion = con.getConexion();
         conexion.open();
-        String lastId = "select top 1 * from etiqueta order by id desc";
-        Long id = new Long(0);
-        if(countEtiquetas() != 0){
-            id = conexion.createQuery(lastId).executeScalar(Long.class)+1;
-        }
-
+        Long id = lastEtiqueta();
         conexion.createQuery(sql)
                 .addParameter("id",id)
                 .addParameter("etiqueta",etiqueta.getEtiqueta())
@@ -40,5 +35,18 @@ public class EtiquetaDao {
         conexion = con.getConexion();
         conexion.open();
         conexion.createQuery(sql).executeUpdate();
+    }
+
+    public Long lastEtiqueta(){
+        Conexion con = new Conexion();
+        conexion = con.getConexion();
+        conexion.open();
+
+        String lastId = "select top 1 * from etiqueta order by id desc";
+        Long id = new Long(0);
+        if(countEtiquetas() != 0){
+            id = conexion.createQuery(lastId).executeScalar(Long.class)+1;
+        }
+        return id;
     }
 }

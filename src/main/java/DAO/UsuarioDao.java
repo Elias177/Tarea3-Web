@@ -51,4 +51,12 @@ public class UsuarioDao {
         conexion.createQuery(sql).executeUpdate();
     }
 
+    public Usuario getSesion(String sesion) {
+            String sql = "select * from usuario where cookies = '" +sesion+"'";
+            Conexion con = new Conexion();
+            conexion = con.getConexion();
+            conexion.open();
+            return conexion.createQuery(sql).executeScalar(Usuario.class);
+    }
+
 }

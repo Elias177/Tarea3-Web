@@ -34,12 +34,12 @@
 
                                                 <div class="form-group">
                                                     <label for="etiquetas"><strong>Etiquetas</strong></label>
-                                                    <textarea name="etiquetas" class="form-control rounded-0"></textarea>
+                                                    <input name="etiquetas" class="form-control rounded-0"></input>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <button type="button" class="btn btn-primary" type="submit">
+                                        <button class="btn btn-primary" type="submit">
                                             NUEVO ARTICULO
 
                                         </button>

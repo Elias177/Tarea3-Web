@@ -17,5 +17,7 @@ dependencies {
     compile group: 'org.sql2o', name: 'sql2o', version: '1.6.0-RC3'
     compile group: 'com.h2database', name: 'h2', version: '1.4.194'
     compile "org.freemarker:freemarker:2.3.28"
+    // https://mvnrepository.com/artifact/org.jasypt/jasypt
+    compile group: 'org.jasypt', name: 'jasypt', version: '1.9.2'
 
 }
