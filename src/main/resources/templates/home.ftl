@@ -31,12 +31,6 @@
                                             Crear artículo
                                         </a>
                                     </li>
-                                        <#else>
-                                        <li class="nav-item">
-                                            <a class="btn btn-link text-light">
-                                                Crear artículo
-                                            </a>
-                                        </li>
                                         </#if>
                                     <#if admin>
                                         <li class="nav-item">
@@ -44,24 +38,29 @@
                                                 Nuevo usuario
                                             </a>
                                         </li>
-                                    <#else>
-                                    <li class="nav-item">
-                                        <a class="btn btn-link text-light">
-                                            Nuevo usuario
-                                        </a>
-                                    </li>
                                     </#if>
 
                                 </ul>
 
-                            <ul class="navbar-nav ml-auto">
-                                <li class="nav-item">
-
+                                <#if admin || autor>
+                                    <ul class="navbar-nav ml-auto">
+                                        <li class="nav-item">
+                                            <a href="/logout">
+                                                Log out
+                                            </a>
+                                        </li>
+                                    </ul>
+                                <#else>
+                                <ul class="navbar-nav ml-auto">
                                     <a href="/login">
-                                        Log out
+                                        Log in
                                     </a>
                                 </li>
-                            </ul>
+
+                                </ul>
+
+                                </#if>
+
 </nav>
 <div class="col-12 p-2">
     <div class="row">

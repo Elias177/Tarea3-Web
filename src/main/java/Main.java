@@ -12,7 +12,6 @@ import org.jasypt.util.text.StrongTextEncryptor;
 
 import java.io.StringWriter;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.*;
 
 import static spark.Spark.*;
@@ -22,12 +21,16 @@ public class Main {
     static String nombreLogeado = "";
     static Usuario usuarioLogeado;
 
+
     public static void main(String[] args) {
         staticFiles.location("/public");
+        Usuario noUser = new Usuario("no","no","no",false,false);
+        usuarioLogeado = noUser;
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
         configuration.setClassForTemplateLoading(Main.class, "/");
 
         DAO.UsuarioDao usuarioDao = new UsuarioDao();
+        usuarioDao.crearDB();
         if(usuarioDao.countUsuarios() == 0){
             Usuario admin = new Usuario("admin","admin","admin",true,true);
             usuarioDao.insertarUsuario(admin);
@@ -56,12 +59,46 @@ public class Main {
                 }
             }
 
-            if (req.session().attribute("sesion") == null) {
-                res.redirect("/login");
-            }
+
 
         });
 
+        get("/login", (req, res) -> {
+            StringWriter writer = new StringWriter();
+            Map<String, Object> atr = new HashMap<>();
+            Template template = configuration.getTemplate("templates/login.ftl");
+            template.process(atr, writer);
+
+            return writer;
+        });
+
+        post("/login", (req, res) -> {
+
+            nombreLogeado = req.queryParams("username");
+            String password = req.queryParams("password");
+            usuarioLogeado = usuarioDao.getUsuario(nombreLogeado, password);
+
+            if (usuarioLogeado != null) {
+                req.session().attribute("sesion", usuarioLogeado);
+
+                if (req.queryParams("keepLog") != null) {
+                    String sesion = req.session().id();
+                    StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+                    textEncryptor.setPassword("mangekyouSharingan42");
+                    String encrypt = textEncryptor.encrypt(sesion);
+
+                    res.cookie("/", "sesion", encrypt, 604800, false);
+                    usuarioDao.saveCookies(usuarioLogeado.getId(),req.session().id());
+                }
+
+                res.redirect("/");
+            } else {
+                res.redirect("/login");
+            }
+
+
+            return null;
+        });
 
         get("/", (req, res) -> {
             StringWriter writer = new StringWriter();
@@ -76,6 +113,17 @@ public class Main {
             atr.put("autor",usuarioLogeado.isAutor());
             atr.put("LosArticulos",articuloList);
             template.process(atr,writer);
+            return writer;
+        });
+
+        get("/logout", (req, res) -> {
+            StringWriter writer = new StringWriter();
+            Map<String, Object> atr = new HashMap<>();
+
+            usuarioLogeado.setAutor(false);
+            usuarioLogeado.setAdministrator(false);
+
+            res.redirect("/");
             return writer;
         });
 
@@ -158,42 +206,6 @@ public class Main {
             return null;
         });
 
-        get("/login", (req, res) -> {
-            StringWriter writer = new StringWriter();
-            Map<String, Object> atr = new HashMap<>();
-            Template template = configuration.getTemplate("templates/login.ftl");
-            template.process(atr, writer);
-
-            return writer;
-        });
-
-        post("/login", (req, res) -> {
-
-                nombreLogeado = req.queryParams("username");
-                String password = req.queryParams("password");
-                usuarioLogeado = usuarioDao.getUsuario(nombreLogeado, password);
-                System.out.println(usuarioLogeado.isAutor());
-                if (usuarioLogeado != null) {
-                    req.session().attribute("sesion", usuarioLogeado);
-
-                    if (req.queryParams("keepLog") != null) {
-                        String sesion = req.session().id();
-                        StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
-                        textEncryptor.setPassword("mangekyouSharingan42");
-                        String encrypt = textEncryptor.encrypt(sesion);
-
-                        res.cookie("/", "sesion", encrypt, 604800, false);
-                        usuarioDao.saveCookies(usuarioLogeado.getId(),req.session().id());
-                    }
-
-                    res.redirect("/");
-                } else {
-                    res.redirect("/login");
-                }
-
-
-            return null;
-        });
 
 
 
